@@ -12,18 +12,26 @@ let targetNumber;
 let attempts = 0;
 const maxNumberOfAttempts = 5;
 
-// Returns a random number from min (inclusive) to max (exclusive)
-// Usage:
-// > getRandomNumber(1, 50)
-// <- 32
-// > getRandomNumber(1, 50)
-// <- 11
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function checkGuess() {
   // Get value from guess input element
+  // https://devdocs.io/javascript/global_objects/parseint
+// edge case for empty input and out of range input
+if(guessInput.value === '') {
+  guessInput.value = '';
+  guessInput.placeHolder = "Please enter a number";
+  // reutrn to exit the function so no wasted attempts
+  return;
+}else if (guessInput.value < 1 || guessInput.value > 99) {
+  guessInput.value = '';
+  guessInput.placeHolder = "Number must be between 1 and 99";
+    // reutrn same here as well
+  return;
+} 
+
   const guess = parseInt(guessInput.value, 10);
   attempts = attempts + 1;
 
