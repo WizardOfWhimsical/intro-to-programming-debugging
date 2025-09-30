@@ -15,38 +15,45 @@ const maxNumberOfAttempts = 5;
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
-
+function tenseForm(num){ 
+  return num === 1 ? "guess" : "guesses";
+}
 function checkGuess() {
-  // Get value from guess input element
-  // https://devdocs.io/javascript/global_objects/parseint
-// edge case for empty input and out of range input
-if(guessInput.value === '') {
-  guessInput.value = '';
-  guessInput.placeHolder = "Please enter a number";
-  // reutrn to exit the function so no wasted attempts
-  return;
-}else if (guessInput.value < 1 || guessInput.value > 99) {
-  guessInput.value = '';
-  guessInput.placeHolder = "Number must be between 1 and 99";
-    // reutrn same here as well
-  return;
-} 
+/*
+ * running checks for empty input and out of range
+ */
+  if(guessInput.value === '') {
+    guessInput.value = '';
+    alert("Please enter a number"); 
+    // reutrn to exit the function so no wasted attempts
+    return;
+  }else if (guessInput.value < 1 || guessInput.value > 99) {
+    guessInput.value = '';
+    alert("Number must be between 1 and 99");
+      // reutrn same here as well
+    return;
+  } 
 
   const guess = parseInt(guessInput.value, 10);
   attempts = attempts + 1;
 
+  // hide all messages function
   hideAllMessages();
 
+  // check if you win
   if (guess === targetNumber) {
     numberOfGuessesMessage.style.display = 'block';
-    numberOfGuessesMessage.innerHTML = `You made ${attempts} guesses`;
 
+    numberOfGuessesMessage.innerHTML = `You made ${attempts} ${tenseForm(attempts)} to guess the correct number!`;
     correctMessage.style.display = "block";
 
     submitButton.disabled = true;
     guessInput.disabled = true;
+    resetButton.style.display = "block";
+    return;
   }
 
+  // mesages let you know how to guess
   if (guess !== targetNumber) {
     if (guess < targetNumber) {
       // to display when the number is lower
@@ -56,24 +63,26 @@ if(guessInput.value === '') {
       tooHighMessage.style.display = "block";
     }
 
+    // how many guesses you have left 
     const remainingAttempts = maxNumberOfAttempts - attempts;
-// display message for guesses reached
+
+    // display message for guesses reached
     numberOfGuessesMessage.style.display = "block";
-switch(remainingAttempts) {
-  case 1:
-    let tense = "guess" // singular
-    break;
-  default:
-    tense = "guesses" // plural
-}
+
+    // i wrote a switch statement here first, but ternary hit me
+    let tense = remainingAttempts === 1 ? "guess" : "guesses";
     numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} ${tense} remaining`;
   }
 
   // trigger for end game
   // first err seen extra "="
+  // stays disabled after reset when you hit max attemps??
   if (attempts === maxNumberOfAttempts) {
+    maxGuessesMessage.style.display = "block";
     submitButton.disabled = true;
     guessInput.disabled = true;
+  // alert(`Sorry, the correct number was ${targetNumber}. Try again!`);
+  // setup();
   }
 //clearing the input box after each guess
   guessInput.value = '';
