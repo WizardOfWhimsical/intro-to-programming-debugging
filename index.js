@@ -12,19 +12,19 @@ let targetNumber;
 let attempts = 0;
 const maxNumberOfAttempts = 5;
 
+// randomly generates a number between whatever and whatever
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+// helper function for pluralization
+// almost made the ternary twice in the code
 function tenseForm(num){ 
   return num === 1 ? "guess" : "guesses";
 }
 
-
-
 function checkGuess() {
-/*
- * running checks for empty input and out of range
- */
+  /*running checks for empty input and out of range*/
   if(guessInput.value === '') {
     guessInput.value = '';
     alert("Please enter a number"); 
@@ -33,10 +33,10 @@ function checkGuess() {
   }else if (guessInput.value < 1 || guessInput.value > 99) {
     guessInput.value = '';
     alert("Number must be between 1 and 99");
-      // reutrn same here as well
+    // reutrn same here as well
     return;
   } 
-
+// parses number input as an integer. comes in as string
   const guess = parseInt(guessInput.value, 10);
   attempts = attempts + 1;
 
@@ -46,13 +46,15 @@ function checkGuess() {
   // check if you win
   if (guess === targetNumber) {
     numberOfGuessesMessage.style.display = 'block';
-
+    // could had went with innerText but innerHTML works here *mehea*
     numberOfGuessesMessage.innerHTML = `You made ${attempts} ${tenseForm(attempts)} to guess the correct number!`;
     correctMessage.style.display = "block";
-
+    // shut these guys off so no glitching
     submitButton.disabled = true;
     guessInput.disabled = true;
+    // gotta see the btn to click it
     resetButton.style.display = "block";
+    // return to exit the game
     return;
   }
 
@@ -73,8 +75,7 @@ function checkGuess() {
     numberOfGuessesMessage.style.display = "block";
 
     // i wrote a switch statement here first, but ternary hit me
-    let tense = remainingAttempts === 1 ? "guess" : "guesses";
-    numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} ${tense} remaining`;
+    numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} ${tenseForm(remainingAttempts)} remaining`;
   }
 
   // trigger for end game
@@ -87,13 +88,13 @@ function checkGuess() {
   // alert(`Sorry, the correct number was ${targetNumber}. Try again!`);
   // setup();
   }
-//clearing the input box after each guess
+  //clearing the input box after each guess
   guessInput.value = '';
-
+  // need to see btn to reset
   resetButton.style.display = "block";
 }
 
-// it is trying to hide all the messages not used?
+// proper naming says it all
 function hideAllMessages() {
   // took the "<=" out of the for loop
   for (let elementIndex = 0; elementIndex < messages.length; elementIndex++) {
@@ -105,8 +106,8 @@ function hideAllMessages() {
 function setup() {
   // Get random number
   targetNumber = getRandomNumber(1, 100);
+  // so i can cheat when i want to :D
   console.log(`target number: ${targetNumber}`);
-
   // this is not attepmts, ops i lost count. think im at 6
   // Reset number of attempts
   attempts = 0;
