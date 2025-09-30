@@ -18,6 +18,9 @@ function getRandomNumber(min, max) {
 function tenseForm(num){ 
   return num === 1 ? "guess" : "guesses";
 }
+
+
+
 function checkGuess() {
 /*
  * running checks for empty input and out of range
@@ -89,6 +92,7 @@ function checkGuess() {
 
   resetButton.style.display = "block";
 }
+
 // it is trying to hide all the messages not used?
 function hideAllMessages() {
   // took the "<=" out of the for loop
@@ -96,6 +100,7 @@ function hideAllMessages() {
     messages[elementIndex].style.display = "none";
   }
 }
+
 // second err seen no "c" in function
 function setup() {
   // Get random number
@@ -105,10 +110,11 @@ function setup() {
   // this is not attepmts, ops i lost count. think im at 6
   // Reset number of attempts
   attempts = 0;
-
+  guessInput.value = '';
   // err 3, nothing is set to work
   // Enable the input and submit button
-  submitButton.disabeld = false;
+  // FKING FINALLY disabled was misspelled
+  submitButton.disabled = false;
   guessInput.disabled = false;
 
   hideAllMessages();
