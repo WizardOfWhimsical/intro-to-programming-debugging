@@ -41,15 +41,24 @@ function checkGuess() {
 
   if (guess !== targetNumber) {
     if (guess < targetNumber) {
+      // to display when the number is lower
       tooLowMessage.style.display = "block";
     } else {
-      tooLowMessage.style.display = "none";
+      // to didplay when the number is higher
+      tooHighMessage.style.display = "block";
     }
 
     const remainingAttempts = maxNumberOfAttempts - attempts;
 // display message for guesses reached
     numberOfGuessesMessage.style.display = "block";
-    numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} guesses remaining`;
+switch(remainingAttempts) {
+  case 1:
+    let tense = "guess" // singular
+    break;
+  default:
+    tense = "guesses" // plural
+}
+    numberOfGuessesMessage.innerHTML = `You guessed ${guess}. <br> ${remainingAttempts} ${tense} remaining`;
   }
 
   // trigger for end game
@@ -58,17 +67,15 @@ function checkGuess() {
     submitButton.disabled = true;
     guessInput.disabled = true;
   }
-
+//clearing the input box after each guess
   guessInput.value = '';
 
   resetButton.style.display = "block";
 }
-// i thikn it is trying to hide all the messages not used?
+// it is trying to hide all the messages not used?
 function hideAllMessages() {
   // took the "<=" out of the for loop
   for (let elementIndex = 0; elementIndex < messages.length; elementIndex++) {
-    // something is wrong with this guy? what is it?
-console.log(messages[elementIndex]);
     messages[elementIndex].style.display = "none";
   }
 }
